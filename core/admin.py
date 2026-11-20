@@ -38,9 +38,8 @@ class ResumeAdmin(admin.ModelAdmin):
 @admin.register(ScreeningResult)
 class ScreeningResultAdmin(admin.ModelAdmin):
     list_display = ('candidate', 'job_position', 'score', 'recommendation', 'generated_at')
-    list_filter = ('recommendation', 'job_position')
-    search_fields = ('candidate__full_name',)
-
+    list_filter = ('recommendation', 'job_position', 'generated_at')
+    search_fields = ('candidate__full_name', 'candidate__email')
 
 @admin.register(InterviewQuestionSet)
 class InterviewQuestionSetAdmin(admin.ModelAdmin):
