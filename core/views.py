@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import status
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework.views import APIView
 
 from .models import InterviewQuestionSet, ScreeningResult
 from .serializers import (
@@ -14,40 +14,43 @@ from .serializers import (
 )
 
 
-class CreateView(APIView):
-    serializer_class = None
-
-    def post(self, request):
-        serializer = self.serializer_class(data=request.data, context={'request': request})
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+def create_object(serializer_class, request):
+    serializer = serializer_class(data=request.data, context={'request': request})
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class DepartmentCreateView(CreateView):
-    serializer_class = DepartmentSerializer
+@api_view(['POST'])
+def create_department(request):
+    return create_object(DepartmentSerializer, request)
 
 
-class JobPositionCreateView(CreateView):
-    serializer_class = JobPositionSerializer
+@api_view(['POST'])
+def create_job_position(request):
+    return create_object(JobPositionSerializer, request)
 
 
-class CandidateCreateView(CreateView):
-    serializer_class = CandidateSerializer
+@api_view(['POST'])
+def create_candidate(request):
+    return create_object(CandidateSerializer, request)
 
 
-class ResumeUploadView(CreateView):
-    serializer_class = ResumeSerializer
+@api_view(['POST'])
+def upload_resume(request):
+    return create_object(ResumeSerializer, request)
 
 
-class ScreeningResultDetailView(APIView):
-    def get(self, request, pk):
-        result = get_object_or_404(ScreeningResult, pk=pk)
-        return Response(ScreeningResultSerializer(result).data)
+@api_view(['GET'])
+def get_screening_result(request, pk):
+    result = get_object_or_404(ScreeningResult, pk=pk)
+    serializer = ScreeningResultSerializer(result, context={'request': request})
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-class InterviewQuestionSetDetailView(APIView):
-    def get(self, request, pk):
-        question_set = get_object_or_404(InterviewQuestionSet, pk=pk)
-        return Response(InterviewQuestionSetSerializer(question_set).data)
+@api_view(['GET'])
+def get_interview_question_set(request, pk):
+    question_set = get_object_or_404(InterviewQuestionSet, pk=pk)
+    serializer = InterviewQuestionSetSerializer(question_set, context={'request': request})
+    return Response(serializer.data, status=status.HTTP_200_OK)
