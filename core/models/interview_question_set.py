@@ -10,7 +10,7 @@ class InterviewQuestionSet(models.Model):
         Candidate, on_delete=models.CASCADE, related_name='question_sets'
     )
     job_position = models.ForeignKey(
-        JobPosition, on_delete=models.CASCADE, related_name='question_sets'
+        JobPosition, on_delete=models.PROTECT, related_name='question_sets'
     )
     screening_result = models.ForeignKey(
         ScreeningResult, on_delete=models.CASCADE, related_name='question_sets'

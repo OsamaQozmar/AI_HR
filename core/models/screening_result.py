@@ -16,7 +16,7 @@ class ScreeningResult(models.Model):
         Candidate, on_delete=models.CASCADE, related_name='screening_results'
     )
     job_position = models.ForeignKey(
-        JobPosition, on_delete=models.CASCADE, related_name='screening_results'
+        JobPosition, on_delete=models.PROTECT, related_name='screening_results'
     )
     score = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(100)]
