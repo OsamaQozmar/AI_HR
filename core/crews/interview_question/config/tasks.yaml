@@ -1,0 +1,37 @@
+interview_question_task:
+  description: |
+    Inputs:
+    **candidate_resume:** {candidate_resume}
+    **job_title:** {job_title}
+    **job_description:** {job_description}
+    **screening_report:** {screening_report}
+
+    Task:
+    1. Analyze the candidate's resume, the job requirements, and the
+       screening report (score, strengths, missing skills, summary).
+
+    2. Write technical questions that verify the candidate's claimed skills
+       and probe the missing or insufficiently demonstrated skills listed
+       in the screening report.
+
+    3. Write behavioral questions that assess soft skills (such as
+       communication, teamwork, problem solving, and adaptability) and the
+       candidate's fit for this role.
+
+    4. Write follow-up questions that dig into specific experiences,
+       projects, achievements, or gaps (for example career breaks or
+       unclear responsibilities) found in the resume.
+
+    5. Make every question specific to this candidate and role, clear, and
+       open-ended. Do not ask about protected characteristics such as age,
+       gender, nationality, religion, or marital status.
+
+  expected_output: |
+    Return ONLY a valid JSON object, with no markdown fences and no extra text,
+    containing these keys:
+    - technical_questions: list of strings
+    - behavioral_questions: list of strings
+    - follow_up_questions: list of strings
+    Each list should contain 4 to 6 questions.
+
+  agent: interview_question_generator
